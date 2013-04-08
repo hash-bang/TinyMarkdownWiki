@@ -1,0 +1,12 @@
+Options -Indexes
+
+RewriteEngine on
+RewriteBase /
+
+# If a raw filename exists - usually used for images or CSS
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule ^(.*)$		- [L]
+
+# Throw everything else at index.php
+RewriteCond $1 !^(index\.php|robots\.txt)
+RewriteRule ^(.*)$ /index.php?path=$1 [L]
