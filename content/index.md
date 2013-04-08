@@ -11,4 +11,6 @@ Edit the `content/index.md` file to change the content of this page.
 
 You can point to other pages by just linking to them like this:
 
-	This is a (link to page Foo)[foo]
+	This is a [link to page Foo](foo)
+
+Which will output: This is a [link to page Foo](foo)
