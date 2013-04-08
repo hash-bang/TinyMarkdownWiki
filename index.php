@@ -2,6 +2,7 @@
 define('CONTENT_DIR', __DIR__ . '/content/'); // Where to find the Markdown files (must end in a slash)
 define('CONTENT_EXT', '.md'); // File extension all files must have
 define('CONTENT_DEFAULT', 'index'); // If no file is specified use this file
+define('CONTENT_TEMPLATE', 'template.php'); // Use this file to render the Markdown in a template
 
 
 $path = isset($_REQUEST['path']) && trim($_REQUEST['path']) ? $_REQUEST['path'] : CONTENT_DEFAULT;
@@ -16,4 +17,7 @@ if (!$md = file_get_contents($file))
 	die('No file content');
 
 require('lib/markdown/markdown.php');
-echo Markdown($md);
+
+$title = ucfirst(basename($path));
+$markdown = Markdown($md);
+require(CONTENT_TEMPLATE);
