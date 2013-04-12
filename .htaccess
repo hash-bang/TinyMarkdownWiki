@@ -1,6 +1,7 @@
 Options -Indexes
 
 RewriteEngine on
+# Where your wiki is located. Change this to the corresponding folder if you move anything (e.g. '/docs' if its located in docs)
 RewriteBase /
 
 # If a raw filename exists - usually used for images or CSS
@@ -9,4 +10,4 @@ RewriteRule ^(.*)$		- [L]
 
 # Throw everything else at index.php
 RewriteCond $1 !^(index\.php|robots\.txt)
-RewriteRule ^(.*)$ /index.php?path=$1 [L]
+RewriteRule ^(.*)$ index.php?path=$1 [L]
