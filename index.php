@@ -1,11 +1,21 @@
 <?
-define('CONTENT_DIR', __DIR__ . '/content/'); // Where to find the Markdown files (must end in a slash)
+define('CONTENT_DIR', dirname(__FILE__) . '/content/'); // Where to find the Markdown files (must end in a slash)
 define('CONTENT_EXT', '.md'); // File extension all files must have
-define('CONTENT_DEFAULT', 'index'); // If no file is specified use this file
+define('CONTENT_DEFAULT', 'home,index'); // CSV of files to use as the default. The list is traversed until one is found
 define('CONTENT_TEMPLATE', 'templates/bootstrap.php'); // Use this file to render the Markdown in a template
 
 
-$path = isset($_REQUEST['path']) && trim($_REQUEST['path']) ? $_REQUEST['path'] : CONTENT_DEFAULT;
+$path = isset($_REQUEST['path']) && trim($_REQUEST['path']) ? $_REQUEST['path'] : FALSE;
+
+if (!$path) { // Determine default file from CONTENT_DEFAULT CSV
+	foreach (preg_split('/\s*,\s*/', CONTENT_DEFAULT) as $file)
+		if (file_exists($f = CONTENT_DIR . $file . CONTENT_EXT)) {
+			$path = $file;
+			break;
+		}
+	if (!$path)
+		die('No default file specified as CONTENT_DEFAULT');
+}
 
 if (trim(pathinfo($path, PATHINFO_EXTENSION)))
 	die('File extensions are not allowed');
