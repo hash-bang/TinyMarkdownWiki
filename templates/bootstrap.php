@@ -4,6 +4,7 @@
 	<meta charset="UTF-8">
 	<title><?=$title?></title>
 	<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+	<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-responsive.min.css" rel="stylesheet">
 	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 	<script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
 	<style>
@@ -16,9 +17,7 @@
 	}
 
 	#affix {
-		width: 258px;
-		margin: 30px 0 0;
-		padding: 0;
+		margin-top: 30px;
 		background-color: #fff;
 		-webkit-border-radius: 6px;
 		-moz-border-radius: 6px;
@@ -30,7 +29,6 @@
 
 	#affix > li > a {
 		display: block;
-		width: 190px 9;
 		margin: 0 0 -1px;
 		padding: 8px 14px;
 		border: 1px solid #e5e5e5;
@@ -60,7 +58,6 @@
 	</style>
 	<script>
 	$(function() {
-		console.log($('h1'));
 		$('h1').each(function() {
 			var my = $(this);
 			var link = my.text().replace(/[^a-z0-9\-]+/i, '-').toLowerCase();
@@ -71,11 +68,10 @@
 	</script>
 </head>
 <body>
-	<div id="content" class="container-fluid">
-		<div class="row-fluid">
-			<div class="span3">
-				<ul id="affix" class="nav nav-list affix">
-				</ul>
+	<div id="content" class="container">
+		<div class="row">
+			<div class="span3 hidden-phone">
+				<ul id="affix" class="nav nav-list affix"></ul>
 			</div>
 			<div class="span9">
 				<?=$markdown?>	
