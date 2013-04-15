@@ -12,12 +12,18 @@
 		margin: 30px 0 15px 0;
 	}
 
+	h2 {
+		font-size: 25px;
+		border-bottom: 1px solid #CCC;
+	}
+
 	#content {
 		margin-top: 20px;
 	}
 
 	#affix {
 		margin-top: 30px;
+		padding: 0px;
 		background-color: #fff;
 		-webkit-border-radius: 6px;
 		-moz-border-radius: 6px;
@@ -58,9 +64,13 @@
 	</style>
 	<script>
 	$(function() {
+		// Transform all flat content tables into the correct Bootstrap classes
+		$('#content table').addClass('table table-bordered table-stripped');
+
+		// Put each H1 tag in the left hand Affix navigator
 		$('h1').each(function() {
 			var my = $(this);
-			var link = my.text().replace(/[^a-z0-9\-]+/i, '-').toLowerCase();
+			var link = my.text().replace(/[^a-z0-9\-]+/gi, '-').toLowerCase();
 			my.prepend('<a name="' + link + '"/>');
 			$('#affix').append('<li><a href="#' + link + '"><i class="icon-chevron-right"></i>' + $(this).text() + '</a></li>');
 		});
