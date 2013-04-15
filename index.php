@@ -26,8 +26,9 @@ if (!file_exists($file = CONTENT_DIR . $path . CONTENT_EXT))
 if (!$md = file_get_contents($file))
 	die('No file content');
 
-require('lib/markdown/markdown.php');
+require('lib/php-markdown/Michelf/Markdown.php');
+require('lib/php-markdown/Michelf/MarkdownExtra.php');
 
 $title = ucfirst(basename($path));
-$markdown = Markdown($md);
+$markdown = Michelf\MarkdownExtra::defaultTransform($md);
 require(CONTENT_TEMPLATE);
