@@ -30,5 +30,5 @@ require('lib/php-markdown/Michelf/Markdown.php');
 require('lib/php-markdown/Michelf/MarkdownExtra.php');
 
 $title = ucfirst(basename($path));
-$markdown = Michelf\MarkdownExtra::defaultTransform($md);
+$markdown = MarkdownExtra::defaultTransform($md);
 require(CONTENT_TEMPLATE);
