@@ -22,6 +22,7 @@
 	}
 
 	#affix {
+		width: 23%;
 		margin-top: 30px;
 		padding: 0px;
 		background-color: #fff;
@@ -78,8 +79,8 @@
 	</script>
 </head>
 <body>
-	<div id="content" class="container">
-		<div class="row">
+	<div id="content" class="container-fluid">
+		<div class="row-fluid">
 			<div class="span3 hidden-phone">
 				<ul id="affix" class="nav nav-list affix"></ul>
 			</div>
