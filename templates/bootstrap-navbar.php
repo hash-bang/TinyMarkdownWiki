@@ -24,6 +24,10 @@
 		margin-top: 20px;
 	}
 
+	#navbar .navbar-inner {
+		padding-left: 20px;
+	}
+
 	#affix {
 		width: 23%;
 		margin-top: 30px;
@@ -68,6 +72,12 @@
 	</style>
 	<script>
 	$(function() {
+		// Fix plain UL elements in navbars to draw correctly in Bootstrap
+		$('#navbar > .navbar-inner > ul')
+			.addClass('nav')
+			.find('li')
+				.after('<li class="divider-vertical"></li>');
+
 		// Transform all flat content tables into the correct Bootstrap classes
 		$('#content table').addClass('table table-bordered table-stripped');
 
@@ -82,6 +92,11 @@
 	</script>
 </head>
 <body>
+	<div id="navbar" class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<?=$menu?>
+		</div>
+	</div>
 	<div id="content" class="container-fluid">
 		<div class="row-fluid">
 			<div class="span3 hidden-phone">
