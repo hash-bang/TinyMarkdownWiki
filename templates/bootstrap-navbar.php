@@ -28,6 +28,13 @@
 		margin-left: 18%;
 	}
 
+	#content .span9 a[name] {
+		display: block;
+		position: relative;
+		top: -45px;
+	}
+
+
 	#navbar .navbar-inner {
 		padding-left: 20px;
 	}
@@ -78,7 +85,6 @@
 	$(function() {
 		var path = location.pathname.split('/'); // Figure out current page
 		path = path[path.length-1];
-		console.log(path);
 
 		// Fix plain UL elements in navbars to draw correctly in Bootstrap
 		$('#navbar > .navbar-inner > ul')
@@ -105,6 +111,26 @@
 			var link = my.text().replace(/[^a-z0-9\-]+/gi, '-').toLowerCase();
 			my.prepend('<a name="' + link + '"/>');
 			$('#affix').append('<li><a href="#' + link + '"><i class="icon-chevron-right"></i>' + $(this).text() + '</a></li>');
+		});
+
+
+		$.fn.isOnScreen = function(element) {
+			var curPos = element.offset();
+			var curTop = curPos.top;
+			var screenHeight = $(window).height();
+			return (curTop > screenHeight) ? false : true;
+		}
+
+		$(document).on('scroll', function() {
+			var docScroll = Math.ceil($('body')[0].scrollTop);
+			$('#affix > li').removeClass('active');
+			$('#content a[name]').each(function() {
+				console.log($(this).attr('name'), docScroll, $(this).offset().top);
+				if (docScroll < Math.ceil($(this).closest('h1').offset().top)) {
+					$('#affix > li > a[href="#' + $(this).attr('name') + '"]').closest('li').addClass('active');
+					return false;
+				}
+			});
 		});
 	});
 	</script>
