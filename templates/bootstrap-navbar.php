@@ -24,12 +24,16 @@
 		margin-top: 20px;
 	}
 
+	#content .span9 {
+		margin-left: 18%;
+	}
+
 	#navbar .navbar-inner {
 		padding-left: 20px;
 	}
 
 	#affix {
-		width: 23%;
+		width: 16%;
 		margin-top: 30px;
 		padding: 0px;
 		background-color: #fff;
