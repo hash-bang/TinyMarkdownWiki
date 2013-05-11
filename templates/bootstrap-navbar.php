@@ -72,11 +72,25 @@
 	</style>
 	<script>
 	$(function() {
+		var path = location.pathname.split('/'); // Figure out current page
+		path = path[path.length-1];
+		console.log(path);
+
 		// Fix plain UL elements in navbars to draw correctly in Bootstrap
 		$('#navbar > .navbar-inner > ul')
 			.addClass('nav')
 			.find('li')
-				.after('<li class="divider-vertical"></li>');
+				.after('<li class="divider-vertical"></li>') // Add vertical spacer after each LI in navbar
+				.each(function() {
+					var href = $(this).children('a').attr('href');
+					if (href.substr(0, 1) == '/') // Stip leading '/' if present
+						href = href.substr(1);
+					if (href == path) // Is this the active path?
+						$(this).addClass('active');
+				});
+
+
+
 
 		// Transform all flat content tables into the correct Bootstrap classes
 		$('#content table').addClass('table table-bordered table-stripped');
