@@ -89,14 +89,31 @@
 		// Fix plain UL elements in navbars to draw correctly in Bootstrap
 		$('#navbar > .navbar-inner > ul')
 			.addClass('nav')
-			.find('li')
+			.children('li')
 				.after('<li class="divider-vertical"></li>') // Add vertical spacer after each LI in navbar
 				.each(function() {
+					if ($(this).children('ul').length) { // Has children - transform into dropdown
+						if (!$(this).children('a').length) { // No 'a' inner on dropdown list probbaly <ul><li>Item<ul><li>Sub-item 1...</li></ul> format
+							var ul = $(this).children('ul');
+							$(this).children('ul').remove();
+							$(this)
+								.html('<a href="#" class="dropdown-toggle" data-toggle="dropdown">' + this.outerText + '</a>')
+								.append(ul);
+						}
+
+						$(this)
+							.addClass('dropdown')
+							.children('ul')
+								.addClass('dropdown-menu');
+					}
+
 					var href = $(this).children('a').attr('href');
-					if (href.substr(0, 1) == '/') // Stip leading '/' if present
-						href = href.substr(1);
-					if (href == path) // Is this the active path?
-						$(this).addClass('active');
+					if (href) {
+						if (href.substr(0, 1) == '/') // Stip leading '/' if present
+							href = href.substr(1);
+						if (href == path) // Is this the active path?
+							$(this).addClass('active');
+					}
 				});
 
 
