@@ -1,4 +1,5 @@
 <?
+define('CONTENT_DIR_WWW', rtrim(dirname($_SERVER['PHP_SELF']), '/') . '/');
 define('CONTENT_DIR', dirname(__FILE__) . '/content/'); // Where to find the Markdown files (must end in a slash)
 define('CONTENT_EXT', '.md'); // File extension all files must have
 define('CONTENT_PASSTHRU_EXT', 'pdf,odp'); // CSV of allowed file types to pass through to the browser (if the file exists in CONTENT_DIR)
@@ -54,6 +55,22 @@ if (isset($_REQUEST['f'])) {
 } else
 	$format = CONTENT_FORMAT_DEFAULT;
 
+// Functions to clean up Markdown {{{
+function clean($md) {
+	// Repoint all links to the correct directory
+	$md = preg_replace_callback('!(href|src)=(["\'])(.*?)\2!i', 'clean_links_callback', $md);
+	return $md;
+}
+
+function clean_links_callback($matches) {
+	if (preg_match('!^(mailto|http|https):!', $matches[3])) { // Absolute URL - use it by itself
+		$link = $matches[3];
+	} else // Relative - in system - URL, correct path
+		$link = CONTENT_DIR_WWW . ltrim($matches[3], '/');
+	return $matches[1] . '=' . $matches[2] . $link . $matches[2];
+}
+// }}}
+
 switch ($format) {
 	case 'plain':
 		header('Content-type: text/plain');
@@ -67,8 +84,9 @@ switch ($format) {
 		$title = ucfirst(basename($path, CONTENT_EXT));
 
 		if (CONTENT_MENU)
-			$menu = (file_exists($f = CONTENT_DIR . CONTENT_MENU . CONTENT_EXT)) ? MarkdownExtra::defaultTransform(file_get_contents($f)) : 'Menu file not found';
-		$markdown = MarkdownExtra::defaultTransform($md);
+			$menu = (file_exists($f = CONTENT_DIR . CONTENT_MENU . CONTENT_EXT)) ? clean(MarkdownExtra::defaultTransform(file_get_contents($f))) : 'Menu file not found';
+		$markdown = clean(MarkdownExtra::defaultTransform($md));
+
 		require(CONTENT_TEMPLATE);
 		break;
 }
