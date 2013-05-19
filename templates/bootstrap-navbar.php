@@ -87,7 +87,7 @@
 		path = path[path.length-1];
 
 		// Fix plain UL elements in navbars to draw correctly in Bootstrap
-		$('#navbar > .navbar-inner > ul')
+		$('#navbar > .navbar-inner > ul:first')
 			.addClass('nav')
 			.children('li')
 				.after('<li class="divider-vertical"></li>') // Add vertical spacer after each LI in navbar
@@ -115,9 +115,6 @@
 							$(this).addClass('active');
 					}
 				});
-
-
-
 
 		// Transform all flat content tables into the correct Bootstrap classes
 		$('#content table').addClass('table table-bordered table-stripped');
@@ -148,6 +145,16 @@
 	<div id="navbar" class="navbar navbar-fixed-top">
 		<div class="navbar-inner">
 			<?=$menu?>
+			<ul class="pull-right nav">
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+						<i class="icon-pencil"></i>
+					</a>
+					<ul class="dropdown-menu">
+						<li><a href="?f=plain">View as plain-text</a></li>
+					</ul>
+				</li>
+			</ul>
 		</div>
 	</div>
 	<div id="content" class="container-fluid">

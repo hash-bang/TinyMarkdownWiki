@@ -4,6 +4,8 @@ define('CONTENT_EXT', '.md'); // File extension all files must have
 define('CONTENT_PASSTHRU_EXT', 'pdf,odp'); // CSV of allowed file types to pass through to the browser (if the file exists in CONTENT_DIR)
 define('CONTENT_DEFAULT', 'home,index'); // CSV of files to use as the default. The list is traversed until one is found
 define('CONTENT_TEMPLATE', 'templates/bootstrap-navbar.php'); // Use this file to render the Markdown in a template
+define('CONTENT_FORMAT_DEFAULT', 'markdown'); // Default renderer to use when ?f= is not specified
+define('CONTENT_FORMAT_ALLOWED', 'markdown,plain'); // CSV of allowable formats for use with ?f=
 
 /**
 * Optionally load this file in as the hierachical menu of the project (it will set the content of the file as $menu instead of $markdown)
@@ -44,13 +46,29 @@ if (!file_exists($file = CONTENT_DIR . $path))
 if (!$md = file_get_contents($file))
 	die('No file content');
 
-require('lib/php-markdown/Michelf/Markdown.php');
-require('lib/php-markdown/Michelf/MarkdownExtra.php');
+parse_str(substr($_SERVER['REQUEST_URI'], strpos($_SERVER['REQUEST_URI'], '?') + 1), $_REQUEST);
+if (isset($_REQUEST['f'])) {
+	$format = $_REQUEST['f'];
+	if (!in_array($format, preg_split('/\s*,\s*/', CONTENT_FORMAT_ALLOWED)))
+		die("Not an allowed output format: $format");
+} else
+	$format = CONTENT_FORMAT_DEFAULT;
 
-$title = ucfirst(basename($path, CONTENT_EXT));
+switch ($format) {
+	case 'plain':
+		header('Content-type: text/plain');
+		echo $md;
+		break;
+	case 'markdown':
+	default:
+		require('lib/php-markdown/Michelf/Markdown.php');
+		require('lib/php-markdown/Michelf/MarkdownExtra.php');
 
-if (CONTENT_MENU)
-	$menu = (file_exists($f = CONTENT_DIR . CONTENT_MENU . CONTENT_EXT)) ? MarkdownExtra::defaultTransform(file_get_contents($f)) : 'Menu file not found';
+		$title = ucfirst(basename($path, CONTENT_EXT));
 
-$markdown = MarkdownExtra::defaultTransform($md);
-require(CONTENT_TEMPLATE);
+		if (CONTENT_MENU)
+			$menu = (file_exists($f = CONTENT_DIR . CONTENT_MENU . CONTENT_EXT)) ? MarkdownExtra::defaultTransform(file_get_contents($f)) : 'Menu file not found';
+		$markdown = MarkdownExtra::defaultTransform($md);
+		require(CONTENT_TEMPLATE);
+		break;
+}
