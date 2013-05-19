@@ -131,24 +131,16 @@
 		});
 
 
-		$.fn.isOnScreen = function(element) {
-			var curPos = element.offset();
-			var curTop = curPos.top;
-			var screenHeight = $(window).height();
-			return (curTop > screenHeight) ? false : true;
-		}
-
 		$(document).on('scroll', function() {
 			var docScroll = Math.ceil($('body')[0].scrollTop);
 			$('#affix > li').removeClass('active');
 			$('#content a[name]').each(function() {
-				console.log($(this).attr('name'), docScroll, $(this).offset().top);
 				if (docScroll < Math.ceil($(this).closest('h1').offset().top)) {
 					$('#affix > li > a[href="#' + $(this).attr('name') + '"]').closest('li').addClass('active');
 					return false;
 				}
 			});
-		});
+		}).trigger('scroll');
 	});
 	</script>
 </head>
