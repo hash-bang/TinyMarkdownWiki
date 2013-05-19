@@ -1,7 +1,7 @@
 <?
 define('CONTENT_DIR', dirname(__FILE__) . '/content/'); // Where to find the Markdown files (must end in a slash)
 define('CONTENT_EXT', '.md'); // File extension all files must have
-define('CONTENT_PASSTHRU_EXT', 'pdf'); // CSV of allowed file types to pass through to the browser (if the file exists in CONTENT_DIR)
+define('CONTENT_PASSTHRU_EXT', 'pdf,odp'); // CSV of allowed file types to pass through to the browser (if the file exists in CONTENT_DIR)
 define('CONTENT_DEFAULT', 'home,index'); // CSV of files to use as the default. The list is traversed until one is found
 define('CONTENT_TEMPLATE', 'templates/bootstrap-navbar.php'); // Use this file to render the Markdown in a template
 
@@ -38,7 +38,7 @@ if ($ext) {
 	$path .= CONTENT_EXT;
 
 if (!file_exists($file = CONTENT_DIR . $path))
-	die('File not found: ' . $file);
+	die('File not found: ' . $path);
 
 
 if (!$md = file_get_contents($file))

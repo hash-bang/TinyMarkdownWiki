@@ -41,7 +41,7 @@
 
 	#affix {
 		width: 16%;
-		margin-top: 30px;
+		margin-top: 60px;
 		padding: 0px;
 		background-color: #fff;
 		-webkit-border-radius: 6px;
